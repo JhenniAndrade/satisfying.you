@@ -1,10 +1,16 @@
-
 import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
-import { COLORS } from '../theme/colors';
-import { FONT_SIZES, FONT_WEIGHTS } from '../theme/fonts';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  SafeAreaView,
+} from 'react-native';
+import {COLORS} from '../theme/colors';
+import {FONT_SIZES, FONT_WEIGHTS} from '../theme/fonts';
 
-const CriarContaScreen = ({ navigation }) => {
+const CriarContaScreen = ({navigation}) => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [confirmPassword, setConfirmPassword] = React.useState('');
@@ -18,7 +24,7 @@ const CriarContaScreen = ({ navigation }) => {
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
         <Text style={styles.title}>Criar Sua Conta</Text>
-        
+
         <TextInput
           style={styles.input}
           placeholder="E-mail"
@@ -37,7 +43,7 @@ const CriarContaScreen = ({ navigation }) => {
           onChangeText={setPassword}
           secureTextEntry
         />
-        
+
         <TextInput
           style={styles.input}
           placeholder="Confirme a Senha"
@@ -50,11 +56,12 @@ const CriarContaScreen = ({ navigation }) => {
         <TouchableOpacity style={styles.button} onPress={handleRegister}>
           <Text style={styles.buttonText}>CADASTRAR</Text>
         </TouchableOpacity>
-        
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-            <Text style={styles.backText}>Voltar para o Login</Text>
-        </TouchableOpacity>
 
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={styles.backButton}>
+          <Text style={styles.backText}>Voltar para o Login</Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
@@ -62,15 +69,50 @@ const CriarContaScreen = ({ navigation }) => {
 
 // ... (Use os mesmos estilos de LoginScreen, adaptando o container)
 const styles = StyleSheet.create({
-    ...StyleSheet.create({ /* ... Estilos do LoginScreen aqui */ }), // Reaproveite estilos
-    safeArea: { flex: 1, backgroundColor: COLORS.background, },
-    container: { flex: 1, padding: 30, alignItems: 'center', justifyContent: 'center', },
-    title: { fontSize: FONT_SIZES.title, fontWeight: FONT_WEIGHTS.bold, color: COLORS.primary, marginBottom: 40, },
-    input: { width: '100%', height: 50, backgroundColor: COLORS.white, borderRadius: 8, paddingHorizontal: 15, marginBottom: 15, borderWidth: 1, borderColor: COLORS.textLight, fontSize: FONT_SIZES.body, color: COLORS.text, },
-    button: { width: '100%', height: 50, backgroundColor: COLORS.primary, borderRadius: 8, justifyContent: 'center', alignItems: 'center', marginTop: 10, },
-    buttonText: { color: COLORS.white, fontSize: FONT_SIZES.subtitle, fontWeight: FONT_WEIGHTS.bold, },
-    backButton: { marginTop: 20, },
-    backText: { color: COLORS.textLight, fontSize: FONT_SIZES.small, }
+  ...StyleSheet.create({
+    /* ... Estilos do LoginScreen aqui */
+  }), // Reaproveite estilos
+  safeArea: {flex: 1, backgroundColor: COLORS.background},
+  container: {
+    flex: 1,
+    padding: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  title: {
+    fontSize: FONT_SIZES.title,
+    fontWeight: FONT_WEIGHTS.bold,
+    color: COLORS.primary,
+    marginBottom: 40,
+  },
+  input: {
+    width: '100%',
+    height: 50,
+    backgroundColor: COLORS.white,
+    borderRadius: 8,
+    paddingHorizontal: 15,
+    marginBottom: 15,
+    borderWidth: 1,
+    borderColor: COLORS.textLight,
+    fontSize: FONT_SIZES.body,
+    color: COLORS.text,
+  },
+  button: {
+    width: '100%',
+    height: 50,
+    backgroundColor: COLORS.primary,
+    borderRadius: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  buttonText: {
+    color: COLORS.white,
+    fontSize: FONT_SIZES.subtitle,
+    fontWeight: FONT_WEIGHTS.bold,
+  },
+  backButton: {marginTop: 20},
+  backText: {color: COLORS.textLight, fontSize: FONT_SIZES.small},
 });
 
 export default CriarContaScreen;
