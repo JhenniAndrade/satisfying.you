@@ -1,25 +1,25 @@
 // src/components/CardPesquisa.js
 
 import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
-import { COLORS } from '../theme/colors';
-import { FONT_SIZES, FONT_WEIGHTS } from '../theme/fonts';
+import {View, Text, Image, StyleSheet} from 'react-native';
+import {COLORS} from '../theme/colors';
+import {FONT_SIZES, FONT_WEIGHTS} from '../theme/fonts';
 
-const CardPesquisa = ({ nomePesquisa, dataPesquisa, imagemURL }) => {
+const CardPesquisa = ({nomePesquisa, dataPesquisa, imagemURL}) => {
   return (
     <View style={styles.card}>
       <Image
-        source={imagemURL ? { uri: imagemURL } : require('../assets/default-image.png')} 
+        source={
+          imagemURL ? {uri: imagemURL} : require('../assets/default-image.png')
+        }
         style={styles.image}
         resizeMode="cover"
       />
       <View style={styles.infoContainer}>
         <Text style={styles.name} numberOfLines={1}>
-          {nomePesquisa || "Pesquisa Sem Nome"}
+          {nomePesquisa || 'Pesquisa Sem Nome'}
         </Text>
-        <Text style={styles.date}>
-          {dataPesquisa || "Data Desconhecida"}
-        </Text>
+        <Text style={styles.date}>{dataPesquisa || 'Data Desconhecida'}</Text>
       </View>
     </View>
   );
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     elevation: 3, // Sombra para Android
     shadowColor: COLORS.text, // Sombra para iOS
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.1,
     shadowRadius: 4,
     flexDirection: 'row',

@@ -22,4 +22,9 @@ export const COLORS = {
   loginBackground: '#372775',
   buttonBlue: '#419ED7',
   buttonGray: '#B0BEC5',
+
+  //Acoes de pesquisa
+  acoesbackgroundColor: '#372775',
+  acoesHeaderColor: '#2b1d62',
+  itemMenuColor: '#312464',
 };

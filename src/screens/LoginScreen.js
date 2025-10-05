@@ -25,8 +25,12 @@ const LoginScreen = () => {
 
   const handleLogin = () => {
     // Lógica de login temporária
-    if (!email || !password) {
-      setError('E-mail e/ou senha inválidos.');
+    if (!email.trim() || !email.includes('@')) {
+      setError('E-mail inválido.');
+      return;
+    }
+    if (password.length < 6 || !password) {
+      setError('A senha deve ter pelo menos 6 caracteres.');
       return;
     }
     setError('');
