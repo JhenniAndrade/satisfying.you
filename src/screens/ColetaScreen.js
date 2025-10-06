@@ -26,7 +26,7 @@ const ColetaScreen = ({navigation}) => {
     <ScrollView contentContainerStyle={styles.scrollContainer}>
       <View style={styles.tela}>
         <Text style={styles.questionText}>
-          O que você achou da Feira de Profissões da UTFPR 2025?
+          O que você achou do Carnaval 2024?
         </Text>
 
         <View style={styles.buttonContainer}>

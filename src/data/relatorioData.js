@@ -1,9 +1,9 @@
 export const PIE_CHART_DATA_CONFIG = [
-  { value: 20, label: 'Excelente', color: '#FFD700', percentage: '20%' },
-  { value: 25, label: 'Bom', color: '#6A5ACD', percentage: '25%' },
-  { value: 30, label: 'Neutro', color: '#66CDAA', percentage: '30%' },
-  { value: 15, label: 'Ruim', color: '#F08080', percentage: '15%' },
-  { value: 10, label: 'Péssimo', color: '#DC143C', percentage: '10%' },
+  { value: 20, label: 'Excelente', color: '#F1CE7E', percentage: '20%' },
+  { value: 25, label: 'Bom', color: '#6994FE', percentage: '25%' },
+  { value: 30, label: 'Neutro', color: '#5FCDA4', percentage: '30%' },
+  { value: 15, label: 'Ruim', color: '#EA7288', percentage: '15%' },
+  { value: 10, label: 'Péssimo', color: '#53D8D8', percentage: '10%' },
 ];
 
 export const RATING_COLORS = {
@@ -30,11 +30,11 @@ export const relatorios = [
     {
         nome: 'Satisfação da Feira de Profissões UTFPR 2025',
         resultados: [
-            { categoria: 'Excelente', valor: 20, color: '#FFD700' },
-            { categoria: 'Bom', valor: 25, color: '#6A5ACD' },
-            { categoria: 'Neutro', valor: 30, color: '#66CDAA' },
-            { categoria: 'Ruim', valor: 15, color: '#F08080' },
-            { categoria: 'Péssimo', valor: 10, color: '#DC143C' },
+            { categoria: 'Excelente', valor: 20, color: '#F1CE7E' },
+            { categoria: 'Bom', valor: 25, color: '#6994FE' },
+            { categoria: 'Neutro', valor: 30, color: '#5FCDA4' },
+            { categoria: 'Ruim', valor: 15, color: '#EA7288' },
+            { categoria: 'Péssimo', valor: 10, color: '#53D8D8' },
         ]
     }
 ];
