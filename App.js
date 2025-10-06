@@ -1,4 +1,3 @@
-// App.js
 import React from 'react';
 import { AppNavigator } from './src/navigation/AppNavigator.js';
 import LoginScreen from './src/screens/LoginScreen.js'; // Importa a sua nova tela

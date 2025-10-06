@@ -8,20 +8,15 @@ import {
   SafeAreaView,
   ScrollView,
 } from 'react-native';
-import {COLORS} from '../theme/colors';
-import {FONT_SIZES, FONT_WEIGHTS} from '../theme/fonts';
+import { COLORS } from '../theme/colors';
+import { FONT_SIZES, FONT_WEIGHTS } from '../theme/fonts';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-// Simulação da função de navegação (Pessoa 4 implementará o uso real)
-const simulateNavigate = screenName =>
-  console.log(`Navegando para: ${screenName}`);
 
 const LoginScreen = ({navigation}) => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [error, setError] = React.useState('');
-
-  // A validação de email válido (Critério 2) será adicionada aqui pela Pessoa 3
 
   const handleLogin = () => {
     // Lógica de login temporária
