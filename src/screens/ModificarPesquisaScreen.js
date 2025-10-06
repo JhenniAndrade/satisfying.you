@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -7,25 +7,39 @@ import {
   StyleSheet,
   SafeAreaView,
   ScrollView,
+  Alert,
 } from 'react-native';
 
-import Icon from 'react-native-vector-icons/FontAwesome'; 
-import { COLORS } from '../theme/colors';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import {COLORS} from '../theme/colors';
 
-const NovaPesquisaScreen = ({ navigation }) => {
+const NovaPesquisaScreen = ({navigation}) => {
   const [nome, setNome] = useState('');
   const [data, setData] = useState('');
   const [imageSource, setImageSource] = useState(null);
 
-  
   const handleCadastro = () => {
     navigation.goBack();
+  };
+  const popUpDelete = () => {
+    Alert.alert(
+      '',
+      'Tem certeza de apagar essa pesquisa?',
+      [
+        {
+          text: 'Sim',
+          style: 'destructive',
+          onPress: () => {},
+        },
+        {text: 'Cancelar', style: 'cancel'},
+      ],
+      {cancelable: true},
+    );
   };
 
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.container}>
-        
         <Text style={styles.label}>Nome</Text>
         <TextInput
           style={styles.input}
@@ -45,7 +59,12 @@ const NovaPesquisaScreen = ({ navigation }) => {
             keyboardType="numeric"
           />
           {/* Ícone de Calendário (Simula o seletor) */}
-          <Icon name="calendar" size={24} color="#fff" style={styles.calendarIcon} />
+          <Icon
+            name="calendar"
+            size={24}
+            color="#fff"
+            style={styles.calendarIcon}
+          />
         </View>
         <Text style={styles.hintText}>Preencha a data</Text>
 
@@ -54,10 +73,14 @@ const NovaPesquisaScreen = ({ navigation }) => {
           <Text style={styles.imagePickerText}>Câmera/Galeria de imagens</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.button} onPress={handleCadastro}>
-          <Text style={styles.buttonText}>Atualizar</Text>
-        </TouchableOpacity>
-
+        <View style={styles.salvarDelete}>
+          <TouchableOpacity style={styles.button} onPress={handleCadastro}>
+            <Text style={styles.buttonText}>SALVAR</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={popUpDelete}>
+            <Icon name="trash" size={48} color="#fff" style={styles.delete} />
+          </TouchableOpacity>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -66,7 +89,7 @@ const NovaPesquisaScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: COLORS.loginBackground, 
+    backgroundColor: COLORS.loginBackground,
   },
   container: {
     flexGrow: 1,
@@ -81,6 +104,16 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 5,
   },
+  salvarDelete: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  delete: {
+    height: 50,
+    marginTop: 40,
+    marginLeft: 20,
+  },
   input: {
     height: 45,
     backgroundColor: COLORS.white,
@@ -90,11 +123,10 @@ const styles = StyleSheet.create({
     color: '#333',
   },
   hintText: {
-    color: COLORS.warning, 
+    color: COLORS.warning,
     fontSize: 12,
     marginTop: 3,
   },
-  
 
   dateInputContainer: {
     flexDirection: 'row',
@@ -112,11 +144,9 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   calendarIcon: {
-    
-    marginRight: 10, 
-    color: '#000', 
+    marginRight: 10,
+    color: '#000',
   },
-
 
   imagePickerButton: {
     height: 45,
@@ -130,15 +160,15 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 
- 
   button: {
-    width: '100%',
+    width: '90%',
     height: 50,
-    backgroundColor: '#5cb85c', 
+    backgroundColor: '#5cb85c',
     borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 40,
+    marginLeft: 10,
   },
   buttonText: {
     color: COLORS.white,
