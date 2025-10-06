@@ -12,10 +12,15 @@ import {FONT_SIZES, FONT_WEIGHTS} from '../theme/fonts';
 
 const RecuperarSenhaScreen = ({navigation}) => {
   const [email, setEmail] = React.useState('');
+  const [error, setError] = React.useState('');
 
   const handleRecovery = () => {
     // A validação de email válido (Critério 2) será adicionada aqui.
-    console.log('Tentativa de Recuperação para:', email);
+    if (!email.trim() || !email.includes('@')) {
+      setError('E-mail inválido.');
+      return;
+    }
+    setError('');
   };
 
   return (
@@ -35,6 +40,8 @@ const RecuperarSenhaScreen = ({navigation}) => {
           keyboardType="email-address"
           autoCapitalize="none"
         />
+
+        {error ? <Text style={styles.errorText}>{error}</Text> : null}
 
         <TouchableOpacity style={styles.button} onPress={handleRecovery}>
           <Text style={styles.buttonText}>ENVIAR CÓDIGO</Text>

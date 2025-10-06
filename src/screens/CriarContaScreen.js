@@ -14,10 +14,23 @@ const CriarContaScreen = ({navigation}) => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [confirmPassword, setConfirmPassword] = React.useState('');
+  const [error, setError] = React.useState('');
 
   const handleRegister = () => {
     // A validação (Critério 2) será implementada aqui.
-    console.log('Tentativa de Registro:', email);
+    if (!email.trim() || !email.includes('@')) {
+      setError('E-mail inválido.');
+      return;
+    }
+    if (password.length < 6 || !password) {
+      setError('A senha deve ter pelo menos 6 caracteres.');
+      return;
+    }
+    if (password !== confirmPassword) {
+      setError('As senhas devem ser iguais.');
+      return;
+    }
+    setError('');
   };
 
   return (
@@ -52,6 +65,8 @@ const CriarContaScreen = ({navigation}) => {
           onChangeText={setConfirmPassword}
           secureTextEntry
         />
+
+        {error ? <Text style={styles.errorText}>{error}</Text> : null}
 
         <TouchableOpacity style={styles.button} onPress={handleRegister}>
           <Text style={styles.buttonText}>CADASTRAR</Text>
