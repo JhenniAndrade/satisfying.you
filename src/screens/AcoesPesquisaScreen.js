@@ -15,24 +15,24 @@ const simulateNavigate = screenName =>
   console.log(`Navegando para: ${screenName}`);
 
 // Mesma simulacao acima, o comando é chamado quando o card for pressionado
-const AcoesPesquisaScreen = () => {
+const AcoesPesquisaScreen = ({navigation}) => {
   const handleModificar = () => {
-    simulateNavigate('Modificar');
+    navigation.navigate('Modificar');
   };
 
   const handleColetarDados = () => {
-    simulateNavigate('ColetarDados');
+    navigation.navigate('ColetarDados');
   };
 
   const handleRelatorio = () => {
-    simulateNavigate('Relatorio');
+    navigation.navigate('Relatorio');
   };
 
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
         <View style={styles.header}>
-          <TouchableOpacity onPress={() => simulateNavigate('Home')}>
+          <TouchableOpacity onPress={() => navigation.goBack('Home')}>
             <Icon name="arrow-left" size={28} color={COLORS.white} />
           </TouchableOpacity>
           <Text style={styles.headerTitle}>Carnaval</Text>

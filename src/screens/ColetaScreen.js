@@ -4,10 +4,17 @@ import EmojiButton from '../components/EmojiButton';
 import { RATING_COLORS, GLOBAL_COLORS } from '../data/relatorioData';
 import { FONT_SIZES, FONT_WEIGHTS } from '../theme/fonts';
 
-const ColetaScreen = () => {
+const ColetaScreen = ({navigation}) => {
+  const [selectedRating, setSelectedRating] = React.useState(null);
+
   const handleSelect = (label) => {
+    setSelectedRating(label)
     console.log('Selecionado:', label);
   };
+
+  const handleSubmit = () =>{
+    navigation.replace('Agradecimento');
+  }
 
   return (
     <ScrollView contentContainerStyle={styles.scrollContainer}>
@@ -20,10 +27,14 @@ const ColetaScreen = () => {
               key={label} 
               label={label} 
               color={RATING_COLORS[label]} 
-              onSelect={handleSelect} 
+              isSelected={selectedRating === label}
+              onSelect={() => handleSelect(label)} 
             />
           ))}
         </View>
+          <TouchableOpacity style={styles.submitButton}onPress={handleSubmit}>
+            <Text style={styles.submitButtonText}>Enviar Resposta</Text>
+          </TouchableOpacity>
       </View>
     </ScrollView>
   );
@@ -40,6 +51,18 @@ const styles = StyleSheet.create({
     marginBottom: 40 
   },
   buttonContainer: { flexDirection: 'row', justifyContent: 'space-around', width: '100%', paddingHorizontal: 10 },
+  submitButton: {
+    marginTop: 60,
+    backgroundColor: RATING_COLORS['Excelente'],
+    paddingVertical: 15,
+    paddingHorizontal: 50,
+    borderRadius: 8,
+  },
+  submitButtonText: {
+    color: GLOBAL_COLORS.BACKGROUND,
+    fontSize: FONT_SIZES.subtitle,
+    fontWeight: FONT_WEIGHTS.bold,
+  }
 });
 
 export default ColetaScreen;

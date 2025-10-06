@@ -16,12 +16,12 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 const simulateNavigate = screenName =>
   console.log(`Navegando para: ${screenName}`);
 
-const LoginScreen = () => {
+const LoginScreen = ({navigation}) => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [error, setError] = React.useState('');
 
-  // A validação de email válido (Critério 2) será adicionada aqui pela Pessoa 3/você mais tarde
+  // A validação de email válido (Critério 2) será adicionada aqui pela Pessoa 3
 
   const handleLogin = () => {
     // Lógica de login temporária
@@ -34,7 +34,7 @@ const LoginScreen = () => {
       return;
     }
     setError('');
-    simulateNavigate('Home'); // Simula navegação para a tela Home
+    navigation.replace('App');
   };
 
   return (
@@ -80,13 +80,13 @@ const LoginScreen = () => {
 
         <TouchableOpacity
           style={styles.createAccountButton}
-          onPress={() => simulateNavigate('CriarConta')}>
+          onPress={() => navigation.navigate('CriarConta')}>
           <Text style={styles.createAccountText}>Criar minha conta</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={styles.forgotPasswordButton}
-          onPress={() => simulateNavigate('RecuperarSenha')}>
+          onPress={() => navigation.navigate('RecuperarSenha')}>
           <Text style={styles.forgotPasswordText}>Esqueci minha senha</Text>
         </TouchableOpacity>
       </ScrollView>
