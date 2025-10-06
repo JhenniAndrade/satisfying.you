@@ -34,7 +34,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 8,
-    // borderWidth e borderColor removidos
   },
   emojiText: { fontSize: 36 },
   iconLabel: {
