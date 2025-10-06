@@ -6,6 +6,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { DrawerContent } from './DrawerContent'; 
 import { HomeStackNavigator } from './HomeStack';
 import { AuthStackNavigator } from './AuthStack'; 
+import HomePesquisasScreen from '../screens/HomeScreen'; 
 import { COLORS } from '../theme/colors';
 
 const Drawer = createDrawerNavigator();

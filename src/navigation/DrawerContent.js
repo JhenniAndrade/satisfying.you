@@ -6,7 +6,7 @@ import {
 } from '@react-navigation/drawer';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {COLORS} from '../theme/colors';
-import {FONT_SIZES, FONT_WEIGHTS} from '../theme/fonts';
+
 
 export function DrawerContent(props){
     const userEmail = 'usuario@domain.com';

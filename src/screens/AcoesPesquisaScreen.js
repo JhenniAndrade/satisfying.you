@@ -10,11 +10,11 @@ import {COLORS} from '../theme/colors';
 import {FONT_SIZES, FONT_WEIGHTS} from '../theme/fonts';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-// Simulação da função de navegação
+
 const simulateNavigate = screenName =>
   console.log(`Navegando para: ${screenName}`);
 
-// Mesma simulacao acima, o comando é chamado quando o card for pressionado
+
 const AcoesPesquisaScreen = ({navigation}) => {
   const handleModificar = () => {
     navigation.navigate('Modificar');

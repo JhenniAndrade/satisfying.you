@@ -3,97 +3,150 @@ import {
   View,
   Text,
   StyleSheet,
-  Button,
   SafeAreaView,
   TouchableOpacity,
+  TextInput, // Adicionado para a barra de pesquisa
+  ScrollView, // Adicionado para permitir scroll se houver muitas pesquisas
 } from 'react-native';
-import {COLORS} from '../theme/colors';
+import { COLORS } from '../theme/colors';
+import Icon from 'react-native-vector-icons/Ionicons'; // Ícones para a barra de pesquisa
 
-const HomeScreen = ({navigation, setIsLoggedIn}) => {
+// Função para renderizar um card de pesquisa
+const SearchCard = ({ title, date, iconName, iconColor, onPress }) => (
+  <TouchableOpacity style={homeStyles.card} onPress={onPress}>
+    <Icon name={iconName} size={40} color={iconColor} />
+    <Text style={homeStyles.cardTitle}>{title}</Text>
+    <Text style={homeStyles.cardDate}>{date}</Text>
+  </TouchableOpacity>
+);
+
+const HomeScreen = ({ navigation, setIsLoggedIn }) => {
     const handleLogout = () => {
         setIsLoggedIn(false)
     };
-
-    const handleQuickLinkPress = (screenName) => {
-      navigation.navigate(screenName); 
-    };
-
-  const quickLinks = [
-    {name: 'Relatórios', icon: '📊', screen: 'Relatorio'},
-    {name: 'Coleta de satisfação', icon: '⭐', screen: 'ColetaDados'},
-    {name: 'Agradecimento', icon: '📣', screen: 'Agradecimento'},
+  const activeSearches = [
+    { name: 'SECOMP 2023', date: '10/10/2023', icon: 'laptop-outline', color: '#B76E79' },
+    { name: 'UBUNTU 2022', date: '05/06/2022', icon: 'people-circle-outline', color: '#000000' },
+    { name: 'MENINAS CPU', date: '01/04/2022', icon: 'woman-outline', color: '#ff0000' },
   ];
 
+  const [searchText, setSearchText] = React.useState(''); // Estado para a pesquisa
 
   return (
     <SafeAreaView style={homeStyles.safeArea}>
-      <View style={homeStyles.container}>
-        <Text style={homeStyles.title}>Dashboard Principal</Text>
-        <Text style={homeStyles.info}>
-          Acesse rapidamente o que você precisa!
-        </Text>
+      <ScrollView contentContainerStyle={homeStyles.scrollContainer}>
+        {/* Barra de Pesquisa */}
+        <View style={homeStyles.searchBarContainer}>
+          <Icon name="search-outline" size={20} color="#888" style={homeStyles.searchIcon} />
+          <TextInput
+            style={homeStyles.searchInput}
+            placeholder="Insira o termo de busca..."
+            placeholderTextColor="#888"
+            value={searchText}
+            onChangeText={setSearchText}
+          />
+        </View>
 
-        <View style={homeStyles.dashboard}>
-          {quickLinks.map(link => (
-            <TouchableOpacity
-              key={link.name}
-              style={homeStyles.linkCard}
-              onPress={() => handleQuickLinkPress(link.screen)}>
-              <Text style={homeStyles.linkEmoji}>{link.icon}</Text>
-              <Text style={homeStyles.linkText}>{link.name}</Text>
-            </TouchableOpacity>
+        {/* Listagem de Cards */}
+        <View style={homeStyles.cardListContainer}>
+          {activeSearches.map((search, index) => (
+            <SearchCard
+              key={index}
+              title={search.name}
+              date={search.date}
+              iconName={search.icon}
+              iconColor={search.color}
+              
+              onPress={() => navigation.navigate('DetalhePesquisa')} 
+            />
           ))}
         </View>
 
-      </View>
+        {/* Botão Inferior de Ação */}
+        <TouchableOpacity style={homeStyles.newSearchButton}>
+          <Text style={homeStyles.newSearchButtonText}>NOVA PESQUISA</Text>
+        </TouchableOpacity>
+        
+      </ScrollView>
     </SafeAreaView>
   );
-}
+};
 
 const homeStyles = StyleSheet.create({
-  safeArea: {flex: 1, backgroundColor: COLORS.loginBackground},
-  container: {flex: 1, alignItems: 'center', padding: 20},
-  title: {
-    fontSize: 28,
-    fontWeight: '700',
-    marginBottom: 5,
-    color: COLORS.white,
-    marginTop: 20,
+  // Fundo principal da tela, se for diferente da cor de login (LoginBackground)
+  safeArea: { flex: 1, backgroundColor: COLORS.loginBackground }, 
+  scrollContainer: {
+    padding: 20,
+    backgroundColor: COLORS.loginBackground,
   },
-  info: {fontSize: 16, textAlign: 'center', marginBottom: 30, color: '#4682B4'},
+  
+  // --- Barra de Pesquisa ---
+  searchBarContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: COLORS.white,
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    marginTop: 10,
+    marginBottom: 20,
+    height: 45,
+    width: '100%',
+  },
+  searchIcon: {
+    marginRight: 10,
+  },
+  searchInput: {
+    flex: 1,
+    fontSize: 16,
+    color: '#333',
+    height: '100%',
+  },
 
-  dashboard: {
+  // --- Listagem de Cards ---
+  cardListContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'center',
-    width: '100%',
-    flex: 1,
+    justifyContent: 'space-between',
+    marginBottom: 20,
   },
-  linkCard: {
-    width: '45%',
-    aspectRatio: 1,
-    margin: 5,
-    backgroundColor: '#E6F3FF',
-    borderRadius: 15,
-    justifyContent: 'center',
-    alignItems: 'center',
+  card: {
+    width: '48%', // 48% para ter espaço entre eles
+    aspectRatio: 1, // Faz com que seja um quadrado
+    backgroundColor: COLORS.white,
+    borderRadius: 8,
     padding: 15,
-    shadowColor: '#000',
-    shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.15,
-    shadowRadius: 4,
-    elevation: 5,
+    marginBottom: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  linkEmoji: {
-    fontSize: 40,
-    marginBottom: 5,
-  },
-  linkText: {
+  cardTitle: {
     fontSize: 14,
     fontWeight: '600',
     textAlign: 'center',
+    marginTop: 10,
     color: '#333',
   },
+  cardDate: {
+    fontSize: 12,
+    color: '#888',
+    marginTop: 2,
+  },
+
+  newSearchButton: {
+    width: '100%',
+    height: 50,
+    backgroundColor: '#5cb85c', 
+    borderRadius: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  newSearchButtonText: {
+    color: COLORS.white,
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+
 });
 
 export default HomeScreen;

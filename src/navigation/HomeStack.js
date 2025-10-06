@@ -2,11 +2,12 @@ import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {COLORS} from '../theme/colors';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import HomeScreen from '../screens/HomeScreen';
+import DetalhePesquisa from '../screens/DetalhePesquisaScreen';
 import AcoesPesquisaScreen from '../screens/AcoesPesquisaScreen';
 import RelatorioScreen from '../screens/RelatorioScreen';
 import ColetaScreen from '../screens/ColetaScreen';
 import AgradecimentoScreen from '../screens/AgradecimentoScreen';
+import HomeScreen from '../screens/HomeScreen'; 
 
 
 
@@ -37,6 +38,13 @@ export function HomeStackNavigator({setIsLoggedIn}) {
           ),
         })}
       />
+
+      <HomeStack.Screen
+        name="DetalhePesquisa"
+        component={DetalhePesquisa} 
+        options={{ title: 'Detalhes' }}
+      />
+
       {/* 4. Tela de Ações da Pesquisa */}
       <HomeStack.Screen
         name="AcoesPesquisa"
