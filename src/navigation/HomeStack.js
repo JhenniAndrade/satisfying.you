@@ -12,18 +12,18 @@ import AgradecimentoScreen from '../screens/AgradecimentoScreen';
 
 const HomeStack = createStackNavigator();
 
-export function HomeStackNavigator() {
+export function HomeStackNavigator({setIsLoggedIn}) {
   return (
     <HomeStack.Navigator
       initialRouteName="Home"
       screenOptions={{
-        headerStyle: {backgroundColor: COLORS.loginBackground},
+        headerStyle: {backgroundColor: COLORS.acoesHeaderColor},
         headerTintColor: '#fff',
       }}>
       {/* 1. Tela Inicial: Configura o botão Sanduíche */}
       <HomeStack.Screen
         name="Home"
-        component={HomeScreen}
+        component={(props) => <HomeScreen {...props} setIsLoggedIn = {setIsLoggedIn}/>}
         options={({navigation}) => ({
           title: '',
           headerLeft: () => (

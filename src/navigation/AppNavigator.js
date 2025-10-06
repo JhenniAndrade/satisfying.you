@@ -11,11 +11,11 @@ import { COLORS } from '../theme/colors';
 const Drawer = createDrawerNavigator();
 const RootStack = createStackNavigator();
 
-function AppDrawerNavigator() {
+function AppDrawerNavigator({setIsLoggedIn}) {
   return (
     <Drawer.Navigator
       initialRouteName="PesquisasStack"
-      drawerContent={props => <DrawerContent {...props} />}
+      drawerContent={props => <DrawerContent {...props} setIsLoggedIn = {setIsLoggedIn}/>}
       screenOptions={{
         headerShown: false,
         drawerActiveTintColor: COLORS.white,
@@ -23,7 +23,7 @@ function AppDrawerNavigator() {
       }}>
       <Drawer.Screen
         name="PesquisasStack"
-        component={HomeStackNavigator}
+        component={props => <HomeStackNavigator {...props} setIsLoggedIn = {setIsLoggedIn} />}
         options={{
           drawerLabel: 'Pesquisas',
           drawerIcon: ({color, size}) => (
@@ -50,7 +50,7 @@ export function AppNavigator() {
       <RootStack.Navigator screenOptions={{ headerShown: false }}>
         
         {isLoggedIn ? (
-          <RootStack.Screen name="App" component={AppDrawerNavigator} />
+          <RootStack.Screen name="App" component={() => <AppDrawerNavigator setIsLoggedIn = {setIsLoggedIn}/>}/>
         ) : (
           <RootStack.Screen 
             name="Auth" 

@@ -10,13 +10,10 @@ import {FONT_SIZES, FONT_WEIGHTS} from '../theme/fonts';
 
 export function DrawerContent(props){
     const userEmail = 'usuario@domain.com';
-
+    const {setIsLoggedIn} = props;
     const handleLogout = () => {
 
-        props.navigation.reset({
-            index: 0,
-            routes: [{ name: 'Auth' }], 
-        });
+        setIsLoggedIn(false)
     }
     return(
         <View style = {styles.container}>
@@ -43,7 +40,7 @@ export function DrawerContent(props){
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: COLORS.headerColor, 
+        backgroundColor: COLORS.acoesHeaderColor, 
     },
     header: {
         padding: 20,

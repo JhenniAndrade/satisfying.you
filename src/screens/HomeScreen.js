@@ -7,15 +7,20 @@ import {
   SafeAreaView,
   TouchableOpacity,
 } from 'react-native';
+import {COLORS} from '../theme/colors';
 
-const HomeScreen = ({navigation}) => {
+const HomeScreen = ({navigation, setIsLoggedIn}) => {
     const handleLogout = () => {
-        navigation.replace('Auth');
+        setIsLoggedIn(false)
+    };
+
+    const handleQuickLinkPress = (screenName) => {
+      navigation.navigate(screenName); 
     };
 
   const quickLinks = [
     {name: 'Relatórios', icon: '📊', screen: 'Relatorio'},
-    {name: 'Coleta de satisfação', icon: '⭐', screen: 'Coleta'},
+    {name: 'Coleta de satisfação', icon: '⭐', screen: 'ColetaDados'},
     {name: 'Agradecimento', icon: '📣', screen: 'Agradecimento'},
   ];
 
@@ -40,28 +45,19 @@ const HomeScreen = ({navigation}) => {
           ))}
         </View>
 
-        <View style={homeStyles.bottomControls}>
-          <View style={homeStyles.buttonContainerSmall}>
-            <Button
-              title="Sair (Logout)"
-              onPress={handleLogout}
-              color="#FF6347"
-            />
-          </View>
-        </View>
       </View>
     </SafeAreaView>
   );
 }
 
 const homeStyles = StyleSheet.create({
-  safeArea: {flex: 1, backgroundColor: '#fff'},
+  safeArea: {flex: 1, backgroundColor: COLORS.loginBackground},
   container: {flex: 1, alignItems: 'center', padding: 20},
   title: {
     fontSize: 28,
     fontWeight: '700',
     marginBottom: 5,
-    color: '#00008B',
+    color: COLORS.white,
     marginTop: 20,
   },
   info: {fontSize: 16, textAlign: 'center', marginBottom: 30, color: '#4682B4'},
@@ -97,23 +93,6 @@ const homeStyles = StyleSheet.create({
     fontWeight: '600',
     textAlign: 'center',
     color: '#333',
-  },
-  bottomControls: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    width: '100%',
-    paddingVertical: 10,
-    borderTopWidth: 1,
-    borderTopColor: '#eee',
-  },
-  buttonContainerSmall: {
-    width: '45%',
-    borderRadius: 8,
-    overflow: 'hidden',
-    shadowColor: '#000',
-    shadowOffset: {width: 0, height: 1},
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
   },
 });
 

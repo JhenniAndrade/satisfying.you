@@ -71,13 +71,13 @@ const styles = StyleSheet.create({
   },
   submitButton: {
     marginTop: 60,
-    backgroundColor: RATING_COLORS.Excelente,
+    backgroundColor: '#37BD6D',
     paddingVertical: 15,
     paddingHorizontal: 50,
     borderRadius: 8,
   },
   submitButtonText: {
-    color: GLOBAL_COLORS.BACKGROUND,
+    color: GLOBAL_COLORS.TEXT,
     fontSize: FONT_SIZES.subtitle,
     fontWeight: FONT_WEIGHTS.bold,
   },
