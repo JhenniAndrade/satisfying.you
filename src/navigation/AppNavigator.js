@@ -9,31 +9,28 @@ import { AuthStackNavigator } from './AuthStack';
 import { COLORS } from '../theme/colors';
 
 const Drawer = createDrawerNavigator();
-const RootStack = createStackNavigator(); 
-
+const RootStack = createStackNavigator();
 
 function AppDrawerNavigator() {
   return (
     <Drawer.Navigator
       initialRouteName="PesquisasStack"
-      drawerContent={(props) => <DrawerContent {...props} />} 
+      drawerContent={props => <DrawerContent {...props} />}
       screenOptions={{
-          headerShown: false,
-          drawerActiveTintColor: COLORS.white,
-          drawerInactiveTintColor: 'rgba(255, 255, 255, 0.7)',
-      }}
-    >
+        headerShown: false,
+        drawerActiveTintColor: COLORS.white,
+        drawerInactiveTintColor: 'rgba(255, 255, 255, 0.7)',
+      }}>
       <Drawer.Screen
         name="PesquisasStack"
-        component={HomeStackNavigator} 
+        component={HomeStackNavigator}
         options={{
           drawerLabel: 'Pesquisas',
-          drawerIcon:({color, size}) =>(
-              <Ionicons name="document-text-outline" size={24} color={color} />
-          )
+          drawerIcon: ({color, size}) => (
+            <Ionicons name="document-text-outline" size={24} color={color} />
+          ),
         }}
       />
-      
     </Drawer.Navigator>
   );
 }

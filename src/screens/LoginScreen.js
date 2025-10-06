@@ -8,8 +8,8 @@ import {
   SafeAreaView,
   ScrollView,
 } from 'react-native';
-import { COLORS } from '../theme/colors';
-import { FONT_SIZES, FONT_WEIGHTS } from '../theme/fonts';
+import {COLORS} from '../theme/colors';
+import {FONT_SIZES, FONT_WEIGHTS} from '../theme/fonts';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 

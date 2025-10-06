@@ -1,8 +1,8 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { PieChart } from 'react-native-gifted-charts';
-import { relatorios, GLOBAL_COLORS } from '../data/relatorioData';
-import { FONT_SIZES, FONT_WEIGHTS } from '../theme/fonts';
+import {View, Text, StyleSheet} from 'react-native';
+import {PieChart} from 'react-native-gifted-charts';
+import {relatorios, GLOBAL_COLORS} from '../data/relatorioData';
+import {FONT_SIZES, FONT_WEIGHTS} from '../theme/fonts';
 
 const RelatorioScreen = () => {
   const relatorio = relatorios[0];
