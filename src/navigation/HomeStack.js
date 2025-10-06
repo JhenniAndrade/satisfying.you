@@ -2,12 +2,13 @@ import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {COLORS} from '../theme/colors';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import DetalhePesquisa from '../screens/DetalhePesquisaScreen';
 import AcoesPesquisaScreen from '../screens/AcoesPesquisaScreen';
 import RelatorioScreen from '../screens/RelatorioScreen';
 import ColetaScreen from '../screens/ColetaScreen';
 import AgradecimentoScreen from '../screens/AgradecimentoScreen';
 import HomeScreen from '../screens/HomeScreen'; 
+import NovaPesquisa from '../screens/NovaPesquisaScreen'
+import ModificarPesquisa from '../screens/ModificarPesquisaScreen'
 
 
 
@@ -39,31 +40,37 @@ export function HomeStackNavigator({setIsLoggedIn}) {
         })}
       />
 
-      <HomeStack.Screen
-        name="DetalhePesquisa"
-        component={DetalhePesquisa} 
-        options={{ title: 'Detalhes' }}
-      />
 
-      {/* 4. Tela de Ações da Pesquisa */}
+      <HomeStack.Screen
+        name="ModificarPesquisa"
+        component={ModificarPesquisa}
+        options={{title:'Modificar Pesquisa'}}
+        />
+
+      <HomeStack.Screen
+        name="NovaPesquisa"
+        component={NovaPesquisa}
+        options={{title:'Nova Pesquisa'}}
+        />
+
       <HomeStack.Screen
         name="AcoesPesquisa"
         component={AcoesPesquisaScreen}
         options={{title: 'Ações da Pesquisa', headerShown: false}}
       />
-      {/* 5. Tela de Coleta de Dados */}
+
       <HomeStack.Screen
         name="ColetaDados"
         component={ColetaScreen}
         options={{title: 'Coletar Dados'}}
       />
-      {/* 6. Tela de Relatório */}
+
       <HomeStack.Screen
         name="Relatorio"
         component={RelatorioScreen}
         options={{title: 'Relatório'}}
       />
-      {}
+      
       <HomeStack.Screen
         name="Agradecimento"
         component={AgradecimentoScreen}

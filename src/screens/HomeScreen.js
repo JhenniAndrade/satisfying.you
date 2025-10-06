@@ -30,7 +30,8 @@ const HomeScreen = ({ navigation, setIsLoggedIn }) => {
     { name: 'MENINAS CPU', date: '01/04/2022', icon: 'woman-outline', color: '#ff0000' },
   ];
 
-  const [searchText, setSearchText] = React.useState(''); // Estado para a pesquisa
+
+  const [searchText, setSearchText] = React.useState(''); 
 
   return (
     <SafeAreaView style={homeStyles.safeArea}>
@@ -57,14 +58,15 @@ const HomeScreen = ({ navigation, setIsLoggedIn }) => {
               iconName={search.icon}
               iconColor={search.color}
               
-              onPress={() => navigation.navigate('DetalhePesquisa')} 
+              onPress={() => navigation.navigate('AcoesPesquisa')} 
             />
           ))}
         </View>
 
         {/* Botão Inferior de Ação */}
-        <TouchableOpacity style={homeStyles.newSearchButton}>
+        <TouchableOpacity style={homeStyles.newSearchButton} onPress={()=> navigation.navigate('NovaPesquisa')}>
           <Text style={homeStyles.newSearchButtonText}>NOVA PESQUISA</Text>
+            
         </TouchableOpacity>
         
       </ScrollView>
@@ -73,14 +75,14 @@ const HomeScreen = ({ navigation, setIsLoggedIn }) => {
 };
 
 const homeStyles = StyleSheet.create({
-  // Fundo principal da tela, se for diferente da cor de login (LoginBackground)
+  
   safeArea: { flex: 1, backgroundColor: COLORS.loginBackground }, 
   scrollContainer: {
     padding: 20,
     backgroundColor: COLORS.loginBackground,
   },
   
-  // --- Barra de Pesquisa ---
+ 
   searchBarContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -102,7 +104,7 @@ const homeStyles = StyleSheet.create({
     height: '100%',
   },
 
-  // --- Listagem de Cards ---
+ 
   cardListContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -110,8 +112,8 @@ const homeStyles = StyleSheet.create({
     marginBottom: 20,
   },
   card: {
-    width: '48%', // 48% para ter espaço entre eles
-    aspectRatio: 1, // Faz com que seja um quadrado
+    width: '48%', 
+    aspectRatio: 1,
     backgroundColor: COLORS.white,
     borderRadius: 8,
     padding: 15,

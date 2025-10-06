@@ -15,7 +15,7 @@ const RecuperarSenhaScreen = ({navigation}) => {
   const [error, setError] = React.useState('');
 
   const handleRecovery = () => {
-    // A validação de email válido (Critério 2) será adicionada aqui.
+    
     if (!email.trim() || !email.includes('@')) {
       setError('E-mail inválido.');
       return;
@@ -57,12 +57,12 @@ const RecuperarSenhaScreen = ({navigation}) => {
   );
 };
 
-// ... (Use os mesmos estilos de LoginScreen e CriarContaScreen)
+
 const styles = StyleSheet.create({
   ...StyleSheet.create({
-    /* ... Estilos do LoginScreen aqui */
-  }), // Reaproveite estilos
-  safeArea: {flex: 1, backgroundColor: COLORS.background},
+   
+  }), 
+  safeArea: {flex: 1, backgroundColor: COLORS.loginBackground},
   container: {
     flex: 1,
     padding: 30,
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: FONT_SIZES.title,
     fontWeight: FONT_WEIGHTS.bold,
-    color: COLORS.primary,
+    color: COLORS.white,
     marginBottom: 20,
   },
   instruction: {
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
   button: {
     width: '100%',
     height: 50,
-    backgroundColor: COLORS.primary,
+    backgroundColor: COLORS.success,
     borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',

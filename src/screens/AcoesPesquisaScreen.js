@@ -11,17 +11,16 @@ import {FONT_SIZES, FONT_WEIGHTS} from '../theme/fonts';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 
-const simulateNavigate = screenName =>
-  console.log(`Navegando para: ${screenName}`);
+
 
 
 const AcoesPesquisaScreen = ({navigation}) => {
   const handleModificar = () => {
-    navigation.navigate('Modificar');
+    navigation.navigate('ModificarPesquisa');
   };
 
   const handleColetarDados = () => {
-    navigation.navigate('ColetarDados');
+    navigation.navigate('ColetaDados');
   };
 
   const handleRelatorio = () => {
@@ -35,7 +34,7 @@ const AcoesPesquisaScreen = ({navigation}) => {
           <TouchableOpacity onPress={() => navigation.goBack('Home')}>
             <Icon name="arrow-left" size={28} color={COLORS.white} />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>Carnaval</Text>
+          <Text style={styles.headerTitle}>Opções</Text>
           <View style={{width: 28}} />
         </View>
 
