@@ -17,7 +17,7 @@ const EmojiButton = ({ label, color, onSelect }) => {
       onPress={() => onSelect(label)}
       activeOpacity={0.7}
     >
-      <View style={[styles.circleIcon, { borderColor: color }]}>
+      <View style={styles.circleIcon}>
         <Text style={[styles.emojiText, { color }]}>{emoji}</Text>
       </View>
       <Text style={styles.iconLabel}>{label}</Text>
@@ -31,10 +31,10 @@ const styles = StyleSheet.create({
     width: ICON_SIZE,
     height: ICON_SIZE,
     borderRadius: ICON_SIZE / 2,
-    borderWidth: 4,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 8,
+    // borderWidth e borderColor removidos
   },
   emojiText: { fontSize: 36 },
   iconLabel: {
