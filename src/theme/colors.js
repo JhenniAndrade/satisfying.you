@@ -20,6 +20,7 @@ export const COLORS = {
 
   // Cores específicas de telas
   loginBackground: '#372775',
+  
   buttonBlue: '#419ED7',
   buttonGray: '#B0BEC5',
 
