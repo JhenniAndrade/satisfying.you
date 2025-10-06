@@ -15,7 +15,7 @@ export const RATING_COLORS = {
 };
 
 export const GLOBAL_COLORS = {
-    BACKGROUND: '#393351',
+    BACKGROUND: '#372775',
     PRIMARY: '#4169E1',
     TEXT: '#FFFFFF',
     CARD_BG: '#4A4367',
