@@ -4,7 +4,7 @@ import {
   DrawerContentScrollView,
   DrawerItemList,
 } from '@react-navigation/drawer';
-import { Ionicons } from '@expo/vector-icons'; 
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import {COLORS} from '../theme/colors';
 import {FONT_SIZES, FONT_WEIGHTS} from '../theme/fonts';
 

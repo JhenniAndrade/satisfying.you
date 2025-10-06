@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack'; 
-import { Ionicons } from '@expo/vector-icons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { DrawerContent } from './DrawerContent'; 
 import { HomeStackNavigator } from './HomeStack';
 import { AuthStackNavigator } from './AuthStack'; 

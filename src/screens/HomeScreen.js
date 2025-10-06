@@ -9,9 +9,9 @@ import {
 } from 'react-native';
 
 const HomeScreen = ({navigation}) => {
-  const handleLogout = () => {
-    navigation.replace('Login');
-  }};
+    const handleLogout = () => {
+        navigation.replace('Auth');
+    };
 
   const quickLinks = [
     {name: 'Relatórios', icon: '📊', screen: 'Relatorio'},
@@ -19,9 +19,6 @@ const HomeScreen = ({navigation}) => {
     {name: 'Agradecimento', icon: '📣', screen: 'Agradecimento'},
   ];
 
-    const handleLogout = () => {
-        navigation.replace('Auth');
-    };
 
   return (
     <SafeAreaView style={homeStyles.safeArea}>
@@ -55,7 +52,7 @@ const HomeScreen = ({navigation}) => {
       </View>
     </SafeAreaView>
   );
-
+}
 
 const homeStyles = StyleSheet.create({
   safeArea: {flex: 1, backgroundColor: '#fff'},
