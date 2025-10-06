@@ -7,7 +7,7 @@ import RecuperarSenhaScreen from '../screens/RecuperarSenhaScreen';
 
 const AuthStack = createStackNavigator();
 
-export function AuthStackNavigator() {
+export function AuthStackNavigator({setIsLoggedIn}) {
   return (
     <AuthStack.Navigator
       initialRouteName="Login"
@@ -15,7 +15,7 @@ export function AuthStackNavigator() {
         headerShown: false, 
       }}
     >
-      <AuthStack.Screen name="Login" component={LoginScreen} />
+      <AuthStack.Screen name="Login" component={(props)=><LoginScreen{...props} setIsLoggedIn = {setIsLoggedIn}/>}/>
       <AuthStack.Screen name="CriarConta" component={CriarContaScreen} />
       <AuthStack.Screen name="RecuperarSenha" component={RecuperarSenhaScreen} />
     </AuthStack.Navigator>

@@ -13,7 +13,7 @@ import { FONT_SIZES, FONT_WEIGHTS } from '../theme/fonts';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 
-const LoginScreen = ({navigation}) => {
+const LoginScreen = ({navigation, setIsLoggedIn}) => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [error, setError] = React.useState('');
@@ -29,7 +29,7 @@ const LoginScreen = ({navigation}) => {
       return;
     }
     setError('');
-    navigation.replace('App');
+    setIsLoggedIn(true);
   };
 
   return (

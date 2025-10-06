@@ -1,8 +1,8 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack'; 
-import { Ionicons } from 'react-native-vector-icons/Ionicons'; 
+import { Ionicons } from '@expo/vector-icons';
 import { DrawerContent } from './DrawerContent'; 
 import { HomeStackNavigator } from './HomeStack';
 import { AuthStackNavigator } from './AuthStack'; 
@@ -38,22 +38,26 @@ function AppDrawerNavigator() {
   );
 }
 
+function AuthStackWrapper({ setIsLoggedIn }) {
+    
+    return <AuthStackNavigator setIsLoggedIn={setIsLoggedIn} />;
+}
+
 
 export function AppNavigator() {
   
-  o
-  const isLoggedIn = false; 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   return (
     <NavigationContainer>
       <RootStack.Navigator screenOptions={{ headerShown: false }}>
-        {/* Usamos o AuthStack como rota inicial */}
+        
         {isLoggedIn ? (
           <RootStack.Screen name="App" component={AppDrawerNavigator} />
         ) : (
           <RootStack.Screen 
             name="Auth" 
-            component={AuthStackNavigator} 
+            component={() => <AuthStackWrapper setIsLoggedIn={setIsLoggedIn}/>} 
             options={{ animationEnabled: false }}
           />
         )}

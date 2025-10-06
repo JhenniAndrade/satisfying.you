@@ -5,12 +5,12 @@ const HomeScreen = ({ navigation }) => {
 
 
     const handleLogout = () => {
-        navigation.replace('Login');
+        navigation.replace('Auth');
     };
 
     const quickLinks = [
         { name: 'Relatórios', icon: '📊', screen: 'Relatorio' },
-        { name: 'Coleta de satisfação', icon: '⭐', screen: 'Coleta' },
+        { name: 'Coleta de satisfação', icon: '⭐', screen: 'ColetaDados' },
         { name: 'Agradecimento', icon: '📣', screen: 'Agradecimento' },
     ];
 

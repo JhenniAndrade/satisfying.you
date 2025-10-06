@@ -10,6 +10,7 @@ import ColetaScreen from '../screens/ColetaScreen';
 import AgradecimentoScreen from '../screens/AgradecimentoScreen';
 
 
+
 const HomeStack = createStackNavigator();
 
 
