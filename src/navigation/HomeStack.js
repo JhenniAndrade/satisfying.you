@@ -22,7 +22,7 @@ export function HomeStackNavigator({setIsLoggedIn}) {
         headerStyle: {backgroundColor: COLORS.acoesHeaderColor},
         headerTintColor: '#fff',
       }}>
-      {/* 1. Tela Inicial: Configura o botão Sanduíche */}
+     
       <HomeStack.Screen
         name="Home"
         component={(props) => <HomeScreen {...props} setIsLoggedIn = {setIsLoggedIn}/>}
