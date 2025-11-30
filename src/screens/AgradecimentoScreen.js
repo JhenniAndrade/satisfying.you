@@ -6,7 +6,7 @@ import {FONT_SIZES, FONT_WEIGHTS} from '../theme/fonts';
 const AgradecimentoScreen = ({navigation}) => {
   useEffect(() => {
     const timer = setTimeout(() => {
-      navigation.replace('Home');
+      navigation.replace('ColetaDados');
     }, 3000);
     return () => clearTimeout(timer);
   }, [navigation]);

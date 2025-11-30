@@ -6,7 +6,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { DrawerContent } from './DrawerContent'; 
 import { HomeStackNavigator } from './HomeStack';
 import { AuthStackNavigator } from './AuthStack'; 
-import HomePesquisasScreen from '../screens/HomeScreen'; 
 import { COLORS } from '../theme/colors';
 
 const Drawer = createDrawerNavigator();
@@ -51,7 +50,7 @@ export function AppNavigator() {
       <RootStack.Navigator screenOptions={{ headerShown: false }}>
         
         {isLoggedIn ? (
-          <RootStack.Screen name="App" component={() => <AppDrawerNavigator setIsLoggedIn = {setIsLoggedIn}/>}/>
+          <RootStack.Screen name="Home" component={() => <AppDrawerNavigator setIsLoggedIn = {setIsLoggedIn}/>}/>
         ) : (
           <RootStack.Screen 
             name="Auth" 

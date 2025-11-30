@@ -26,7 +26,6 @@ const RelatorioScreen = () => {
         focusOnPress
       />
 
-      {/* Legenda */}
       <View style={styles.legendContainer}>
         {relatorio.resultados.map((item, index) => (
           <View key={index} style={styles.legendItem}>
@@ -70,7 +69,7 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
     marginRight: 8,
-    borderRadius: 4, // opcional, deixa os cantos arredondados
+    borderRadius: 4, 
   },
   legendLabel: {
     color: GLOBAL_COLORS.TEXT,
