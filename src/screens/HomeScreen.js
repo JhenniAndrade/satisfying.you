@@ -7,6 +7,9 @@ import {
   TouchableOpacity,
   TextInput,
   ScrollView,
+  FlatList,
+  ActivityIndicator,
+  Alert,
 } from 'react-native';
 import { COLORS } from '../theme/colors';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -14,18 +17,13 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { collection, onSnapshot } from 'firebase/firestore';
 import { db } from '../firebase/config';
 
-const SearchCard = ({ title, date, iconName, iconColor, onPress }) => (
-  <TouchableOpacity style={homeStyles.card} onPress={onPress}>
-    <Icon name={iconName} size={40} color={iconColor} />
-    <Text style={homeStyles.cardTitle}>{title}</Text>
-    <Text style={homeStyles.cardDate}>{date}</Text>
-  </TouchableOpacity>
-);
+import CardPesquisa from '../components/CardPesquisa'; 
 
 const HomeScreen = ({ navigation, setIsLoggedIn }) => {
   // Estado para armazenar as pesquisas do banco
   const [listaPesquisas, setListaPesquisas] = useState([]);
-  const [searchText, setSearchText] = useState('');
+  const [termoBusca, setTermoBusca] = useState(''); 
+  const [loading, setLoading] = useState(true);
 
   // Efeito para buscar dados em tempo real no Firestore
   useEffect(() => {
@@ -40,71 +38,92 @@ const HomeScreen = ({ navigation, setIsLoggedIn }) => {
         });
       });
       setListaPesquisas(pesquisasData);
+      setLoading(false);
+      Alert.alert('error', 'Falha ao realizar a busca.');
     });
 
     return () => unsubscribe();
   }, []);
 
+  const pesquisasFiltradas = listaPesquisas.filter(pesquisa =>
+
+    pesquisa.nome?.toLowerCase().includes(termoBusca.toLowerCase())  
+  );
+
+    const renderItem = ({ item }) => (
+    <CardPesquisa
+      pesquisa={item}
+      
+      onPress={() => navigation.navigate('ModificarPesquisa', item)} 
+    />
+  );
+
   return (
-    <SafeAreaView style={homeStyles.safeArea}>
-      <ScrollView contentContainerStyle={homeStyles.scrollContainer}>
+    <SafeAreaView style={styles.safeArea}>
+      <View style={styles.header}>
         {/* Barra de Pesquisa */}
-        <View style={homeStyles.searchBarContainer}>
-          <Icon name="search-outline" size={20} color="#888" style={homeStyles.searchIcon} />
+        <View style={styles.searchContainer}>
+          <Icon name="search-outline" size={20} color="#888" style={styles.searchIcon} />
           <TextInput
-            style={homeStyles.searchInput}
+            style={styles.searchInput}
             placeholder="Insira o termo de busca..."
             placeholderTextColor="#888"
-            value={searchText}
-            onChangeText={setSearchText}
+            value={termoBusca}
+            onChangeText={setTermoBusca}
           />
         </View>
+      </View>
 
         {/* Listagem de Cards */}
-        <View style={homeStyles.cardListContainer}>
-          {listaPesquisas.map((search) => (
-            <SearchCard
-              key={search.id}
-              title={search.nome}
-              date={search.data}
-              // Usando Ã­cone padrÃ£o se nÃ£o houver um definido
-              iconName={search.imagem ? 'laptop-outline' : 'document-text-outline'} 
-              iconColor="#B76E79" 
-              // Passamos o objeto 'search' inteiro para a prÃ³xima tela
-              onPress={() => navigation.navigate('AcoesPesquisa', { searchItem: search })} 
-            />
-          ))}
+      {loading ? (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color={COLORS.white} />
+          <Text style={styles.loadingText}>Carregando pesquisas...</Text>
         </View>
+      ) : (
+        <FlatList
+          data={pesquisasFiltradas}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id.toString()}
+          numColumns={2} 
+          contentContainerStyle={styles.listContent}
+          columnWrapperStyle={styles.cardRow} 
+          showsVerticalScrollIndicator={false}
+          ListEmptyComponent={() => (
+            <Text style={styles.emptyText}>Nenhuma pesquisa encontrada.</Text>
+          )}
+        />
+      )}
 
         {/* BotÃ£o Inferior de AÃ§Ã£o */}
         <TouchableOpacity style={homeStyles.newSearchButton} onPress={()=> navigation.navigate('NovaPesquisa')}>
           <Text style={homeStyles.newSearchButtonText}>NOVA PESQUISA</Text>
         </TouchableOpacity>
         
-      </ScrollView>
+     
     </SafeAreaView>
   );
 };
-
-const homeStyles = StyleSheet.create({
+const styles = StyleSheet.create({
   safeArea: { flex: 1, backgroundColor: COLORS.loginBackground }, 
-  scrollContainer: {
-    padding: 20,
-    backgroundColor: COLORS.loginBackground,
+  header: {
+    backgroundColor: COLORS.headerColor, 
+    paddingHorizontal: 20,
+    paddingTop: 10,
+    paddingBottom: 15,
   },
-  searchBarContainer: {
+  searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: COLORS.white,
     borderRadius: 8,
     paddingHorizontal: 10,
-    marginTop: 10,
-    marginBottom: 20,
-    height: 45,
+    height: 40,
     width: '100%',
   },
   searchIcon: {
     marginRight: 10,
+    color: '#888',
   },
   searchInput: {
     flex: 1,
@@ -112,48 +131,43 @@ const homeStyles = StyleSheet.create({
     color: '#333',
     height: '100%',
   },
-  cardListContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    marginBottom: 20,
-  },
-  card: {
-    width: '48%', 
-    aspectRatio: 1,
-    backgroundColor: COLORS.white,
-    borderRadius: 8,
-    padding: 15,
-    marginBottom: 15,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  cardTitle: {
-    fontSize: 14,
-    fontWeight: '600',
-    textAlign: 'center',
-    marginTop: 10,
-    color: '#333',
-  },
-  cardDate: {
-    fontSize: 12,
-    color: '#888',
-    marginTop: 2,
-  },
-  newSearchButton: {
-    width: '100%',
-    height: 50,
-    backgroundColor: '#5cb85c', 
-    borderRadius: 8,
+  loadingContainer: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 20,
   },
-  newSearchButtonText: {
+  loadingText: {
     color: COLORS.white,
+    marginTop: 10,
+  },
+  listContent: {
+    padding: 10,
+    paddingBottom: 20,
+  },
+  cardRow: {
+    justifyContent: 'space-between',
+    marginBottom: 5,
+  },
+  emptyText: {
+    color: COLORS.white,
+    textAlign: 'center',
+    marginTop: 50,
     fontSize: 16,
+  },
+  newButton: {
+    backgroundColor: '#5cb85c', 
+    paddingVertical: 15,
+    marginHorizontal: 10,
+    marginBottom: 10,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  newButtonText: {
+    color: COLORS.white,
+    fontSize: 18,
     fontWeight: 'bold',
   },
 });
+
 
 export default HomeScreen;
