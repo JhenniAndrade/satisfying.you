@@ -6,7 +6,10 @@ import {
   TouchableOpacity,
   StyleSheet,
   SafeAreaView,
+  Alert,
 } from 'react-native';
+import {createUserWithEmailAndPassword} from 'firebase/auth';
+import {auth_mod} from '../firebase/config';
 import {COLORS} from '../theme/colors';
 import {FONT_SIZES, FONT_WEIGHTS} from '../theme/fonts';
 
@@ -17,7 +20,6 @@ const CriarContaScreen = ({navigation}) => {
   const [error, setError] = React.useState('');
 
   const handleRegister = () => {
-    
     if (!email.trim() || !email.includes('@')) {
       setError('E-mail inválido.');
       return;
@@ -31,6 +33,16 @@ const CriarContaScreen = ({navigation}) => {
       return;
     }
     setError('');
+
+    createUserWithEmailAndPassword(auth_mod, email, password)
+      .then(userCredential => {
+        Alert.alert('Conta criada com sucesso!');
+        navigation.goBack();
+      })
+      .catch(error => {
+        console.log(error);
+        setError('Erro ao criar conta. Tente novamente.');
+      });
   };
 
   return (
@@ -82,11 +94,8 @@ const CriarContaScreen = ({navigation}) => {
   );
 };
 
-
 const styles = StyleSheet.create({
-  ...StyleSheet.create({
-  
-  }), 
+  ...StyleSheet.create({}),
   safeArea: {flex: 1, backgroundColor: COLORS.loginBackground},
   container: {
     flex: 1,

@@ -6,7 +6,10 @@ import {
   TouchableOpacity,
   StyleSheet,
   SafeAreaView,
+  Alert,
 } from 'react-native';
+import {sendPasswordResetEmail} from 'firebase/auth';
+import {auth_mod} from '../firebase/config';
 import {COLORS} from '../theme/colors';
 import {FONT_SIZES, FONT_WEIGHTS} from '../theme/fonts';
 
@@ -15,12 +18,20 @@ const RecuperarSenhaScreen = ({navigation}) => {
   const [error, setError] = React.useState('');
 
   const handleRecovery = () => {
-    
     if (!email.trim() || !email.includes('@')) {
       setError('E-mail inválido.');
       return;
     }
     setError('');
+
+    sendPasswordResetEmail(auth_mod, email)
+      .then(() => {
+        Alert.alert('Sucesso', 'E-mail de recuperação enviado!');
+        navigation.goBack();
+      })
+      .catch(error => {
+        setError('Erro ao enviar e-mail. Verifique o endereço.');
+      });
   };
 
   return (
@@ -57,11 +68,8 @@ const RecuperarSenhaScreen = ({navigation}) => {
   );
 };
 
-
 const styles = StyleSheet.create({
-  ...StyleSheet.create({
-   
-  }), 
+  ...StyleSheet.create({}),
   safeArea: {flex: 1, backgroundColor: COLORS.loginBackground},
   container: {
     flex: 1,

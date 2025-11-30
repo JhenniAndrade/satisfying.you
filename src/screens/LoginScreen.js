@@ -8,10 +8,11 @@ import {
   SafeAreaView,
   ScrollView,
 } from 'react-native';
+import {signInWithEmailAndPassword} from 'firebase/auth';
+import {auth_mod} from '../firebase/config';
 import {COLORS} from '../theme/colors';
 import {FONT_SIZES, FONT_WEIGHTS} from '../theme/fonts';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-
 
 const LoginScreen = ({navigation, setIsLoggedIn}) => {
   const [email, setEmail] = React.useState('');
@@ -29,7 +30,14 @@ const LoginScreen = ({navigation, setIsLoggedIn}) => {
       return;
     }
     setError('');
-    setIsLoggedIn(true);
+
+    signInWithEmailAndPassword(auth_mod, email, password)
+      .then(userCredential => {
+        setIsLoggedIn(true);
+      })
+      .catch(error => {
+        setError('E-mail ou senha incorretos.');
+      });
   };
 
   return (
