@@ -1,17 +1,19 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
   StyleSheet,
   SafeAreaView,
   TouchableOpacity,
-  TextInput, // Adicionado para a barra de pesquisa
-  ScrollView, // Adicionado para permitir scroll se houver muitas pesquisas
+  TextInput,
+  ScrollView,
 } from 'react-native';
 import { COLORS } from '../theme/colors';
-import Icon from 'react-native-vector-icons/Ionicons'; // Ícones para a barra de pesquisa
+import Icon from 'react-native-vector-icons/Ionicons';
+// ImportaÃ§Ãµes do Firebase
+import { collection, onSnapshot } from 'firebase/firestore';
+import { db } from '../firebase/config';
 
-// Função para renderizar um card de pesquisa
 const SearchCard = ({ title, date, iconName, iconColor, onPress }) => (
   <TouchableOpacity style={homeStyles.card} onPress={onPress}>
     <Icon name={iconName} size={40} color={iconColor} />
@@ -21,17 +23,27 @@ const SearchCard = ({ title, date, iconName, iconColor, onPress }) => (
 );
 
 const HomeScreen = ({ navigation, setIsLoggedIn }) => {
-    const handleLogout = () => {
-        setIsLoggedIn(false)
-    };
-  const activeSearches = [
-    { name: 'SECOMP 2023', date: '10/10/2023', icon: 'laptop-outline', color: '#B76E79' },
-    { name: 'UBUNTU 2022', date: '05/06/2022', icon: 'people-circle-outline', color: '#000000' },
-    { name: 'MENINAS CPU', date: '01/04/2022', icon: 'woman-outline', color: '#ff0000' },
-  ];
+  // Estado para armazenar as pesquisas do banco
+  const [listaPesquisas, setListaPesquisas] = useState([]);
+  const [searchText, setSearchText] = useState('');
 
+  // Efeito para buscar dados em tempo real no Firestore
+  useEffect(() => {
+    const q = collection(db, 'pesquisas');
+    // onSnapshot "escuta" o banco de dados e atualiza a lista sempre que algo mudar
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const pesquisasData = [];
+      snapshot.forEach((doc) => {
+        pesquisasData.push({
+          id: doc.id,
+          ...doc.data()
+        });
+      });
+      setListaPesquisas(pesquisasData);
+    });
 
-  const [searchText, setSearchText] = React.useState(''); 
+    return () => unsubscribe();
+  }, []);
 
   return (
     <SafeAreaView style={homeStyles.safeArea}>
@@ -50,23 +62,23 @@ const HomeScreen = ({ navigation, setIsLoggedIn }) => {
 
         {/* Listagem de Cards */}
         <View style={homeStyles.cardListContainer}>
-          {activeSearches.map((search, index) => (
+          {listaPesquisas.map((search) => (
             <SearchCard
-              key={index}
-              title={search.name}
-              date={search.date}
-              iconName={search.icon}
-              iconColor={search.color}
-              
-              onPress={() => navigation.navigate('AcoesPesquisa')} 
+              key={search.id}
+              title={search.nome}
+              date={search.data}
+              // Usando Ã­cone padrÃ£o se nÃ£o houver um definido
+              iconName={search.imagem ? 'laptop-outline' : 'document-text-outline'} 
+              iconColor="#B76E79" 
+              // Passamos o objeto 'search' inteiro para a prÃ³xima tela
+              onPress={() => navigation.navigate('AcoesPesquisa', { searchItem: search })} 
             />
           ))}
         </View>
 
-        {/* Botão Inferior de Ação */}
+        {/* BotÃ£o Inferior de AÃ§Ã£o */}
         <TouchableOpacity style={homeStyles.newSearchButton} onPress={()=> navigation.navigate('NovaPesquisa')}>
           <Text style={homeStyles.newSearchButtonText}>NOVA PESQUISA</Text>
-            
         </TouchableOpacity>
         
       </ScrollView>
@@ -75,14 +87,11 @@ const HomeScreen = ({ navigation, setIsLoggedIn }) => {
 };
 
 const homeStyles = StyleSheet.create({
-  
   safeArea: { flex: 1, backgroundColor: COLORS.loginBackground }, 
   scrollContainer: {
     padding: 20,
     backgroundColor: COLORS.loginBackground,
   },
-  
- 
   searchBarContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -103,8 +112,6 @@ const homeStyles = StyleSheet.create({
     color: '#333',
     height: '100%',
   },
-
- 
   cardListContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -133,7 +140,6 @@ const homeStyles = StyleSheet.create({
     color: '#888',
     marginTop: 2,
   },
-
   newSearchButton: {
     width: '100%',
     height: 50,
@@ -148,7 +154,6 @@ const homeStyles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
-
 });
 
 export default HomeScreen;

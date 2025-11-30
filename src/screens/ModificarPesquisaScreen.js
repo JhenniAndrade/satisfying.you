@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -11,29 +11,67 @@ import {
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {COLORS} from '../theme/colors';
+import { COLORS } from '../theme/colors';
+import { doc, updateDoc, deleteDoc } from 'firebase/firestore';
+import { db } from '../firebase/config';
 
-const NovaPesquisaScreen = ({navigation}) => {
+// Recebemos 'route' para pegar os dados passados pela navegaÃ§Ã£o
+const ModificarPesquisaScreen = ({ navigation, route }) => {
   const [nome, setNome] = useState('');
   const [data, setData] = useState('');
-  const [imageSource, setImageSource] = useState(null);
+  const [id, setId] = useState(null);
 
-  const handleCadastro = () => {
-    navigation.goBack();
+  // Carregar dados quando a tela abrir
+  useEffect(() => {
+    if (route.params) {
+      const { id, nome, data } = route.params;
+      setId(id);
+      setNome(nome);
+      setData(data);
+    }
+  }, [route.params]);
+
+  const handleSalvar = async () => {
+    if (!id) return;
+    try {
+      const ref = doc(db, 'pesquisas', id);
+      await updateDoc(ref, {
+        nome: nome,
+        data: data,
+      });
+      Alert.alert('Sucesso', 'Pesquisa atualizada!');
+      navigation.navigate('Home'); // Volta para a home ou tela anterior
+    } catch (error) {
+      console.error(error);
+      Alert.alert('Erro', 'Erro ao atualizar pesquisa.');
+    }
   };
+
+  const deleteSearch = async () => {
+    if (!id) return;
+    try {
+      const ref = doc(db, 'pesquisas', id);
+      await deleteDoc(ref);
+      Alert.alert('Sucesso', 'Pesquisa apagada.');
+      navigation.navigate('Home');
+    } catch (error) {
+      console.error(error);
+      Alert.alert('Erro', 'Erro ao apagar pesquisa.');
+    }
+  };
+
   const popUpDelete = () => {
     Alert.alert(
-      '',
+      'Apagar Pesquisa',
       'Tem certeza de apagar essa pesquisa?',
       [
         {
           text: 'Sim',
-          style: 'destructive',
-          onPress: () => {},
+          onPress: deleteSearch,
         },
-        {text: 'Cancelar', style: 'cancel'},
+        { text: 'Cancelar', style: 'cancel' },
       ],
-      {cancelable: true},
+      { cancelable: true },
     );
   };
 
@@ -58,23 +96,17 @@ const NovaPesquisaScreen = ({navigation}) => {
             placeholder="DD/MM/AAAA"
             keyboardType="numeric"
           />
-          {/* Ícone de Calendário (Simula o seletor) */}
-          <Icon
-            name="calendar"
-            size={24}
-            color="#fff"
-            style={styles.calendarIcon}
-          />
+          <Icon name="calendar" size={24} color="#fff" style={styles.calendarIcon} />
         </View>
         <Text style={styles.hintText}>Preencha a data</Text>
 
         <Text style={styles.label}>Imagem</Text>
         <TouchableOpacity style={styles.imagePickerButton}>
-          <Text style={styles.imagePickerText}>Câmera/Galeria de imagens</Text>
+          <Text style={styles.imagePickerText}>CÃ¢mera/Galeria de imagens</Text>
         </TouchableOpacity>
 
         <View style={styles.salvarDelete}>
-          <TouchableOpacity style={styles.button} onPress={handleCadastro}>
+          <TouchableOpacity style={styles.button} onPress={handleSalvar}>
             <Text style={styles.buttonText}>SALVAR</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={popUpDelete}>
@@ -96,7 +128,6 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: COLORS.loginBackground,
   },
-
   label: {
     fontSize: 18,
     fontWeight: '500',
@@ -127,7 +158,6 @@ const styles = StyleSheet.create({
     fontSize: 12,
     marginTop: 3,
   },
-
   dateInputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -147,7 +177,6 @@ const styles = StyleSheet.create({
     marginRight: 10,
     color: '#000',
   },
-
   imagePickerButton: {
     height: 45,
     backgroundColor: COLORS.white,
@@ -159,7 +188,6 @@ const styles = StyleSheet.create({
     color: '#666',
     fontSize: 16,
   },
-
   button: {
     width: '90%',
     height: 50,
@@ -177,4 +205,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default NovaPesquisaScreen;
+export default ModificarPesquisaScreen;
