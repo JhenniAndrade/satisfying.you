@@ -15,36 +15,101 @@ import { COLORS } from '../theme/colors';
 import { doc, updateDoc, deleteDoc } from 'firebase/firestore';
 import { db } from '../firebase/config';
 
+import { pickImage, takePhoto } from '../utils/imageUtils'; 
+import { uploadImageToFirebase } from '../firebase/storage'; 
+
 // Recebemos 'route' para pegar os dados passados pela navegaÃ§Ã£o
 const ModificarPesquisaScreen = ({ navigation, route }) => {
   const [nome, setNome] = useState('');
   const [data, setData] = useState('');
   const [id, setId] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [imageUrl, setImageUrl] = useState(null);
 
   // Carregar dados quando a tela abrir
   useEffect(() => {
-    if (route.params) {
-      const { id, nome, data } = route.params;
-      setId(id);
-      setNome(nome);
-      setData(data);
-    }
+    const fetchPesquisa = async () => {
+        if (!route.params || !route.params.id) return;
+        
+        const { id: routeId } = route.params;
+        setId(routeId);
+
+            setNome(route.params.nome || '');
+            setData(route.params.data || '');
+            setImageUrl(route.params.imageUrl || null);
+
+    };
+    fetchPesquisa();
   }, [route.params]);
 
-  const handleSalvar = async () => {
-    if (!id) return;
+  const handleImagePicker = (source) => {
+    if (loading) return;
+    
+    Alert.alert(
+      "Escolher Imagem",
+      "De onde você gostaria de selecionar a imagem?",
+      [
+        { text: "Câmera", onPress: () => processImageUpload('camera') },
+        { text: "Galeria", onPress: () => processImageUpload('gallery') },
+        { text: "Cancelar", style: "cancel" }
+      ]
+    );
+  };
+
+  const processImageUpload = async (source) => {
+    setLoading(true);
+    let localUri = null;
+
     try {
+      
+      localUri = source === 'camera' ? await takePhoto() : await pickImage();
+
+      if (!localUri) {
+        setLoading(false);
+        return;
+      }
+
+      
+      
+      const newDownloadURL = await uploadImageToFirebase(localUri, id);
+
+      if (newDownloadURL) {
+        
+        setImageUrl(newDownloadURL);
+        Alert.alert('Sucesso', 'Nova imagem carregada! Clique em SALVAR para finalizar.');
+      }
+
+    } catch (e) {
+      console.error("Erro no fluxo de upload:", e);
+      Alert.alert('Erro', 'Falha ao fazer upload da imagem.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSalvar = async () => {
+    if (!id || loading  ) return;
+    if(!nome || !data) return;{
+      Alert.alert('Erro', 'Preencha os campos obrigatórios.');
+      return;
+    }
+    try {
+      setLoading(true);
       const ref = doc(db, 'pesquisas', id);
       await updateDoc(ref, {
         nome: nome,
         data: data,
+        imageUrl: imageUrl, 
       });
       Alert.alert('Sucesso', 'Pesquisa atualizada!');
-      navigation.navigate('Home'); // Volta para a home ou tela anterior
+      navigation.navigate('Home'); 
     } catch (error) {
       console.error(error);
       Alert.alert('Erro', 'Erro ao atualizar pesquisa.');
+    } finally{
+      setLoading(false);
     }
+
   };
 
   const deleteSearch = async () => {
@@ -57,6 +122,8 @@ const ModificarPesquisaScreen = ({ navigation, route }) => {
     } catch (error) {
       console.error(error);
       Alert.alert('Erro', 'Erro ao apagar pesquisa.');
+    } finally{
+      setLoading(false);
     }
   };
 
@@ -67,7 +134,9 @@ const ModificarPesquisaScreen = ({ navigation, route }) => {
       [
         {
           text: 'Sim',
-          onPress: deleteSearch,
+          onPress: () => {
+            deleteSearch();
+          },
         },
         { text: 'Cancelar', style: 'cancel' },
       ],

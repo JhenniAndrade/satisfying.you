@@ -1,59 +1,75 @@
-// src/components/CardPesquisa.js
-
 import React from 'react';
 import {View, Text, Image, StyleSheet} from 'react-native';
 import {COLORS} from '../theme/colors';
 import {FONT_SIZES, FONT_WEIGHTS} from '../theme/fonts';
 
-const CardPesquisa = ({nomePesquisa, dataPesquisa, imagemURL}) => {
+
+const CardPesquisa = ({pesquisa, onPress}) => {
+
+  const {
+    nome: nomePesquisa,
+    data: dataPesquisa,
+    imageUrl: imagemURL
+  } = pesquisa;
+
+ 
   return (
-    <View style={styles.card}>
-      <Image
-        source={
-          imagemURL ? {uri: imagemURL} : require('../assets/default-image.png')
-        }
-        style={styles.image}
-        resizeMode="cover"
-      />
-      <View style={styles.infoContainer}>
-        <Text style={styles.name} numberOfLines={1}>
-          {nomePesquisa || 'Pesquisa Sem Nome'}
-        </Text>
-        <Text style={styles.date}>{dataPesquisa || 'Data Desconhecida'}</Text>
+
+    <TouchableOpacity
+        style={styles.cardContainer}
+        onPress={onPress}
+    >
+      <View style={styles.card}>
+        <Image
+          source={
+            imagemURL ? {uri: imagemURL} : {uri: 'https:placehold.co/80x80/CCCCCC/666666?text=ICON'}
+          }
+          style={styles.image}
+          resizeMode="cover"
+        />
+        <View style={styles.infoContainer}>
+          <Text style={styles.name} numberOfLines={1}>
+            {nomePesquisa || 'Pesquisa Sem Nome'}
+          </Text>
+          <Text style={styles.date}>{dataPesquisa || 'Data Desconhecida'}</Text>
+        </View>
       </View>
-    </View>
+  </TouchableOpacity>
   );
 };
 
+
 const styles = StyleSheet.create({
-  card: {
-    backgroundColor: COLORS.white,
-    borderRadius: 10,
-    marginVertical: 8,
-    marginHorizontal: 16,
-    overflow: 'hidden',
-    elevation: 3, // Sombra para Android
-    shadowColor: COLORS.text, // Sombra para iOS
+ cardContainer: {
+    width: '48%',
+    marginBottom: 15,
+    elevation: 3,
+    shadowColor: COLORS.text,
     shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.1,
     shadowRadius: 4,
-    flexDirection: 'row',
+  },
+
+  card: {
+    backgroundColor: COLORS.white,
+    borderRadius: 10,
+    overflow: 'hidden',
   },
   image: {
-    width: 80,
-    height: 80,
+    width: '100%',
+    height: 100,
     backgroundColor: COLORS.background,
   },
   infoContainer: {
     padding: 12,
-    justifyContent: 'center',
-    flex: 1,
+    alignItems: 'center'
   },
   name: {
-    fontSize: FONT_SIZES.subtitle,
+    fontSize: 14,
     fontWeight: FONT_WEIGHTS.bold,
     color: COLORS.primary,
     marginBottom: 4,
+    textAlign: 'center',
   },
   date: {
     fontSize: FONT_SIZES.small,
