@@ -3,7 +3,6 @@ import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import {COLORS} from '../theme/colors';
 import {FONT_SIZES, FONT_WEIGHTS} from '../theme/fonts';
 
-
 const CardPesquisa = ({pesquisa, onPress}) => {
 
   const {
@@ -12,17 +11,17 @@ const CardPesquisa = ({pesquisa, onPress}) => {
     imageUrl: imagemURL
   } = pesquisa;
 
- 
   return (
-
     <TouchableOpacity
-        style={styles.cardContainer}
-        onPress={onPress}
+      style={styles.cardContainer}
+      onPress={onPress}
     >
       <View style={styles.card}>
         <Image
           source={
-            imagemURL ? {uri: imagemURL} : {uri: 'https:placehold.co/80x80/CCCCCC/666666?text=ICON'}
+            imagemURL
+              ? {uri: imagemURL}
+              : {uri: 'https:placehold.co/80x80/CCCCCC/666666?text=ICON'}
           }
           style={styles.image}
           resizeMode="cover"
@@ -34,13 +33,12 @@ const CardPesquisa = ({pesquisa, onPress}) => {
           <Text style={styles.date}>{dataPesquisa || 'Data Desconhecida'}</Text>
         </View>
       </View>
-  </TouchableOpacity>
+    </TouchableOpacity>
   );
 };
 
-
 const styles = StyleSheet.create({
- cardContainer: {
+  cardContainer: {
     width: '48%',
     marginBottom: 15,
     elevation: 3,

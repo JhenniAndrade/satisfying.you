@@ -17,12 +17,12 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { collection, onSnapshot } from 'firebase/firestore';
 import { db } from '../firebase/config';
 
-import CardPesquisa from '../components/CardPesquisa'; 
+import CardPesquisa from '../components/CardPesquisa';
 
 const HomeScreen = ({ navigation, setIsLoggedIn }) => {
   // Estado para armazenar as pesquisas do banco
   const [listaPesquisas, setListaPesquisas] = useState([]);
-  const [termoBusca, setTermoBusca] = useState(''); 
+  const [termoBusca, setTermoBusca] = useState('');
   const [loading, setLoading] = useState(true);
 
   // Efeito para buscar dados em tempo real no Firestore
@@ -46,14 +46,14 @@ const HomeScreen = ({ navigation, setIsLoggedIn }) => {
 
   const pesquisasFiltradas = listaPesquisas.filter(pesquisa =>
 
-    pesquisa.nome?.toLowerCase().includes(termoBusca.toLowerCase())  
+    pesquisa.nome?.toLowerCase().includes(termoBusca.toLowerCase())
   );
 
-    const renderItem = ({ item }) => (
+  const renderItem = ({ item }) => (
     <CardPesquisa
       pesquisa={item}
-      
-      onPress={() => navigation.navigate('ModificarPesquisa', item)} 
+
+      onPress={() => navigation.navigate('AcoesPesquisa', { pesquisa: item })}
     />
   );
 
@@ -73,7 +73,7 @@ const HomeScreen = ({ navigation, setIsLoggedIn }) => {
         </View>
       </View>
 
-        {/* Listagem de Cards */}
+      {/* Listagem de Cards */}
       {loading ? (
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={COLORS.white} />
@@ -84,9 +84,9 @@ const HomeScreen = ({ navigation, setIsLoggedIn }) => {
           data={pesquisasFiltradas}
           renderItem={renderItem}
           keyExtractor={(item) => item.id.toString()}
-          numColumns={2} 
+          numColumns={2}
           contentContainerStyle={styles.listContent}
-          columnWrapperStyle={styles.cardRow} 
+          columnWrapperStyle={styles.cardRow}
           showsVerticalScrollIndicator={false}
           ListEmptyComponent={() => (
             <Text style={styles.emptyText}>Nenhuma pesquisa encontrada.</Text>
@@ -94,19 +94,19 @@ const HomeScreen = ({ navigation, setIsLoggedIn }) => {
         />
       )}
 
-        {/* BotÃ£o Inferior de AÃ§Ã£o */}
         <TouchableOpacity style={styles.newButton} onPress={()=> navigation.navigate('NovaPesquisa')}>
           <Text style={styles.newButtonText}>NOVA PESQUISA</Text>
         </TouchableOpacity>
         
      
+
     </SafeAreaView>
   );
 };
 const styles = StyleSheet.create({
-  safeArea: { flex: 1, backgroundColor: COLORS.loginBackground }, 
+  safeArea: { flex: 1, backgroundColor: COLORS.loginBackground },
   header: {
-    backgroundColor: COLORS.headerColor, 
+    backgroundColor: COLORS.headerColor,
     paddingHorizontal: 20,
     paddingTop: 10,
     paddingBottom: 15,
@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   newButton: {
-    backgroundColor: '#5cb85c', 
+    backgroundColor: '#5cb85c',
     paddingVertical: 15,
     marginHorizontal: 10,
     marginBottom: 10,
