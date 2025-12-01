@@ -40,8 +40,19 @@ const CriarContaScreen = ({navigation}) => {
         navigation.goBack();
       })
       .catch(error => {
-        console.log(error);
-        setError('Erro ao criar conta. Tente novamente.');
+        // Logue apenas o código e a mensagem para evitar o erro do getter
+        console.log('Erro Firebase:', error.code, error.message);
+        
+        // Opcional: Tratar erros específicos para o usuário
+        if (error.code === 'auth/email-already-in-use') {
+          setError('Este e-mail já está cadastrado.');
+        } else if (error.code === 'auth/weak-password') {
+          setError('A senha é muito fraca.');
+        } else if (error.code === 'auth/invalid-email') {
+          setError('Formato de e-mail inválido.');
+        } else {
+          setError('Erro ao criar conta. Tente novamente.');
+        }
       });
   };
 
