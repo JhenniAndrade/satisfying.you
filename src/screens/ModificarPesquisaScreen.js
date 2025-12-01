@@ -8,6 +8,7 @@ import {
   SafeAreaView,
   ScrollView,
   Alert,
+  Image,
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -170,9 +171,23 @@ const ModificarPesquisaScreen = ({ navigation, route }) => {
         <Text style={styles.hintText}>Preencha a data</Text>
 
         <Text style={styles.label}>Imagem</Text>
-        <TouchableOpacity style={styles.imagePickerButton}>
-          <Text style={styles.imagePickerText}>CÃ¢mera/Galeria de imagens</Text>
-        </TouchableOpacity>
+                {loading && <ActivityIndicator size="small" color={COLORS.white} />}
+                {imageUrl && (
+                    <Image 
+                        source={{ uri: imageUrl }} 
+                        style={styles.currentImage} 
+                        resizeMode="cover"
+                    />
+                )}
+                <TouchableOpacity 
+                    style={styles.imagePickerButton}
+                    onPress={handleImagePicker} 
+                    disabled={loading}
+                >
+                  <Text style={styles.imagePickerText}>
+                    {imageUrl ? 'Trocar Imagem' : 'Adicionar Imagem'}
+                  </Text>
+                </TouchableOpacity>
 
         <View style={styles.salvarDelete}>
           <TouchableOpacity style={styles.button} onPress={handleSalvar}>

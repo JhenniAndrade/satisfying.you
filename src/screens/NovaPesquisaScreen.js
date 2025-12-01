@@ -7,6 +7,8 @@ import {
   StyleSheet,
   SafeAreaView,
   ScrollView,
+  ActivityIndicator,
+  Image,
   Alert, // Import para alertas
 } from 'react-native';
 
@@ -17,29 +19,86 @@ import { COLORS } from '../theme/colors';
 import { collection, addDoc } from 'firebase/firestore';
 import { db } from '../firebase/config';
 
+import { pickImage, takePhoto } from '../utils/imageUtils'; 
+import { uploadImageToFirebase } from '../firebase/storage'; 
+
 const NovaPesquisaScreen = ({ navigation }) => {
   const [nome, setNome] = useState('');
   const [data, setData] = useState('');
-  const [imageSource, setImageSource] = useState(null);
+  
+  const [imageUrl, setImageUrl] = useState(null); 
+  const [loading, setLoading] = useState(false); 
 
-  const handleCadastro = async () => {
-    // ValidaÃ§Ã£o simples
-    if (!nome || !data) {
-      Alert.alert('Erro', 'Por favor, preencha o nome e a data.');
-      return;
-    }
+  const handleImagePicker = () => {
+    if (loading) return;
+    
+    Alert.alert(
+      "Escolher Imagem",
+      "Selecione uma das opções",
+      [
+        { text: "Câmera", onPress: () => processImageUpload('camera') },
+        { text: "Galeria", onPress: () => processImageUpload('gallery') },
+        { text: "Cancelar", style: "cancel" }
+      ]
+    );
+  };
+
+  const processImageUpload = async (source) => {
+    setLoading(true);
+    let localUri = null;
 
     try {
-      const docRef = await addDoc(collection(db, 'pesquisas'), {
+      
+      localUri = source === 'camera' ? await takePhoto() : await pickImage();
+
+      if (!localUri) {
+        setLoading(false);
+        return;
+      }
+      
+      
+      
+      const tempId = `new_${Date.now()}`;
+      const newDownloadURL = await uploadImageToFirebase(localUri, tempId);
+
+      if (newDownloadURL) {
+        
+        setImageUrl(newDownloadURL);
+        Alert.alert('Sucesso', 'Imagem carregada! Clique em SALVAR para criar a pesquisa.');
+      }
+
+    } catch (e) {
+      console.error("Erro no fluxo de upload:", e);
+      Alert.alert('Erro', 'Falha ao fazer upload da imagem.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
+  const handleCadastro = async () => {
+    if (!nome || !data) {
+      Alert.alert('Erro', 'Preencha Nome e Data.');
+      return;
+    }
+    if (loading) return;
+    setLoading(true);
+
+    try {
+      
+      await addDoc(collection(db, 'pesquisas'), {
         nome: nome,
         data: data,
-        imagem: 'default', // Placeholder para imagem por enquanto
+        imageUrl: imageUrl, 
       });
-      console.log("Pesquisa cadastrada com ID: ", docRef.id);
-      navigation.goBack(); // Volta para a Home
-    } catch (e) {
-      console.error("Erro ao adicionar documento: ", e);
-      Alert.alert('Erro', 'NÃ£o foi possÃ­vel salvar a pesquisa.');
+
+      Alert.alert('Sucesso', 'Pesquisa criada com sucesso!');
+      navigation.goBack(); 
+    } catch (error) {
+      console.error(error);
+      Alert.alert('Erro', 'Erro ao criar pesquisa.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -70,11 +129,25 @@ const NovaPesquisaScreen = ({ navigation }) => {
         <Text style={styles.hintText}>Preencha a data</Text>
 
         <Text style={styles.label}>Imagem</Text>
-        <TouchableOpacity style={styles.imagePickerButton}>
-          <Text style={styles.imagePickerText}>CÃ¢mera/Galeria de imagens</Text>
+        {loading && <ActivityIndicator size="small" color={COLORS.white} />}
+        {imageUrl && (
+            <Image 
+                source={{ uri: imageUrl }} 
+                style={styles.currentImage} 
+                resizeMode="cover"
+            />
+        )}
+        <TouchableOpacity 
+            style={styles.imagePickerButton}
+            onPress={handleImagePicker} 
+            disabled={loading}
+        >
+          <Text style={styles.imagePickerText}>
+            {imageUrl ? 'Trocar Imagem' : 'Adicionar Imagem'}
+          </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.button} onPress={handleCadastro}>
+        <TouchableOpacity style={styles.button} onPress={handleCadastro} >
           <Text style={styles.buttonText}>CADASTRAR</Text>
         </TouchableOpacity>
 
@@ -138,6 +211,8 @@ const styles = StyleSheet.create({
     borderRadius: 0,
     justifyContent: 'center',
     paddingHorizontal: 10,
+    marginTop: 10,
+    marginBottom: 30,
   },
   imagePickerText: {
     color: '#666',

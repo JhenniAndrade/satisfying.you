@@ -39,7 +39,6 @@ const HomeScreen = ({ navigation, setIsLoggedIn }) => {
       });
       setListaPesquisas(pesquisasData);
       setLoading(false);
-      Alert.alert('error', 'Falha ao realizar a busca.');
     });
 
     return () => unsubscribe();
@@ -96,8 +95,8 @@ const HomeScreen = ({ navigation, setIsLoggedIn }) => {
       )}
 
         {/* BotÃ£o Inferior de AÃ§Ã£o */}
-        <TouchableOpacity style={homeStyles.newSearchButton} onPress={()=> navigation.navigate('NovaPesquisa')}>
-          <Text style={homeStyles.newSearchButtonText}>NOVA PESQUISA</Text>
+        <TouchableOpacity style={styles.newButton} onPress={()=> navigation.navigate('NovaPesquisa')}>
+          <Text style={styles.newButtonText}>NOVA PESQUISA</Text>
         </TouchableOpacity>
         
      
