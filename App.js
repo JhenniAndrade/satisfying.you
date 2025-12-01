@@ -1,8 +1,12 @@
 import React from 'react';
-import { AppNavigator } from './src/navigation/AppNavigator.js';
+import { Provider } from 'react-redux';
+import { store } from './src/redux/store'; // Importe a store criada
+import { AppNavigator } from './src/navigation/AppNavigator';
 
-
-export default function App(){
-    return <AppNavigator/>;
+export default function App() {
+  return (
+    <Provider store={store}>
+      <AppNavigator />
+    </Provider>
+  );
 }
-
